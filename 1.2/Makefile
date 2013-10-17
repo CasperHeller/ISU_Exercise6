@@ -1,6 +1,3 @@
-# Makefile for ISU
-# by TeamISU
-# with automatic source detection
 EXENAME   := main
 SOURCES   :=
 LD_FLAGS  := -pthread
@@ -49,4 +46,3 @@ help:
 # Section for dependency files:
 CXX_FLAGS += -MMD
 -include $(OBJ_FILES:.o=.d)
-# end of file

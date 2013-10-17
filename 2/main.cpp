@@ -12,9 +12,9 @@ void *entryFunc(void*);
 void *exitFunc(void*);
 
 // Konstanter
-const int CAR_AMOUNT    = 5;  // Amount of car threads
+const int CAR_AMOUNT    = 7;  // Amount of car threads
 const int SLEEP_TIME    = 15;  // Maximum sleeping time (seconds)
-const int PARKING_SPOTS = 3;  // Amount of spots in the parking lot
+const int PARKING_SPOTS = 4;  // Amount of spots in the parking lot
 
 // Globale variabler
 pthread_mutex_t entryLock, exitLock, entrySpot, exitSpot;
@@ -187,6 +187,8 @@ void *carFunc(void* carID)
         entryWaiting = false;
         pthread_cond_signal(&entrySignal);
         pthread_mutex_unlock(&entryLock);
+	// Sikre at entry er lukket før entrySpot frigives
+	while(entryIsOpen) { usleep(1); }
         // Indkørsel færdig
         pthread_mutex_unlock(&entrySpot);
 
@@ -207,6 +209,8 @@ void *carFunc(void* carID)
         exitWaiting = false;
         pthread_cond_signal(&exitSignal);
         pthread_mutex_unlock(&exitLock);
+	// Sikre at exit er lukket før exitSpot frigives
+	while(exitIsOpen) { usleep(1); }
         // Udkørsel færdig
         pthread_mutex_unlock(&exitSpot);
 

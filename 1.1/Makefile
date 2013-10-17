@@ -44,4 +44,3 @@ help:
 # Section for dependency files:
 CXX_FLAGS += -MMD
 -include $(OBJ_FILES:.o=.d)
-# end of file
